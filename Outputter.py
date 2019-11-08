@@ -1,11 +1,15 @@
 from Dictionaries import Team, Driver, Constructor
 def team(team):
+    drivers = []
+    for d in team.drivers:
+        drivers.append(d)
     print("----------------------------------------------------")
     print(" DRIVERS:")
     print("\t" + "Name".center(13, " ") + "|" + "Turbo".center(7, " ") + "|" + "Points".center(8, " ") + "|" + (
         "Price in Mio").center(14, " "))
     print("\t" + "".center(13, " ") + "|" + "".center(7, " ") + "|" + "".center(8, " ") + "|")
-    for driver in team.drivers:
+    drivers.sort(key=lambda x: x.name, reverse=False)
+    for driver in drivers:
         name = driver.name.ljust(13, " ")
         turbo = " "
         if team.turboedDriver().name == driver.name:

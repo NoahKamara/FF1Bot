@@ -7,14 +7,10 @@ from DriversAndConstructors import GetDriversAndConstructors
 import FormulaDatabase
 from DriversAndConstructors import GetDriversAndConstructors
 from TeamGenerator import makeBestTeamListUnder100M
-
-
-
-
-class AuthCred:
-    def __init__(self, login, password):
-        self.login = login
-        self.password = password
+from TeamStatRefresh import refreshTeam
+from ChangeProposer import proposeChange
+import TeamSaver
+from Configuration import isFirstTimeLaunch, loadConfig, saveConfig, AuthCred, Configuration, performSetup
 
 
 def save_obj(obj, name):
@@ -27,22 +23,17 @@ def load_obj(name):
         return pickle.load(f)
 
 
-def login(login="", password=""):
-    if not (os.path.isfile("authCred.pkl")):
-        print("Enter your login Credentials:")
-        login = input("Email:    ")
-        password = input("Password: ")
-        cred = AuthCred(login, password)
-        save_obj(cred, "authCred")
-    else:
-        cred = load_obj("authCred")
-
-    return cred.login, cred.password
-
-
 # FormulaDatabase.insertDrivers(drivers)
 
 if __name__ == '__main__':
-    drivers, constructors = GetDriversAndConstructors(login()[0], login()[1], webdriver.Chrome())
-    makeBestTeamListUnder100M(drivers, constructors)
+    if isFirstTimeLaunch():
+        performSetup()
+    config = loadConfig()
+    auth = config.auth
+    drivers, constructors = GetDriversAndConstructors(auth.login, auth.password, webdriver.Chrome())
     FormulaDatabase.insertDrivers(drivers)
+    if not (os.path.exists('team.pkl')):
+        makeBestTeamListUnder100M(drivers, constructors)
+    else:
+        refreshTeam(drivers, constructors)
+        proposedTeam = proposeChange(drivers, constructors)
