@@ -1,5 +1,5 @@
 from itertools import combinations
-
+import TeamSaver
 from Dictionaries import Team
 
 
@@ -35,7 +35,7 @@ def makeBestTeamListUnder100M(drivers, constructors):
 
     # Calculate Team with most Points
     bestTeam = max(fullAffordableTeams, key=lambda i: float(i.calculatePoints()))
-
+    TeamSaver.save(bestTeam)
     # never used aswell (sören)
     # OUTPUT
     print("BEST POSSIBLE TEAM:")
