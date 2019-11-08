@@ -1,6 +1,8 @@
 import os.path
 import pickle
 
+from selenium import webdriver
+
 import FormulaDatabase
 from DriversAndConstructors import GetDriversAndConstructors
 from TeamGenerator import GenerateFrom
@@ -22,19 +24,22 @@ def load_obj(name):
         return pickle.load(f)
 
 
-login = ""
-password = ""
-cred = AuthCred("", "")
-if not (os.path.isfile("authCred.pkl")):
-    print("Enter your login Credentials:")
-    login = input("Email:    ")
-    password = input("Password: ")
-    cred = AuthCred(login, password)
-    save_obj(cred, "authCred")
-else:
-    cred = load_obj("authCred")
-drivers, constructors = GetDriversAndConstructors(cred.login, cred.password)
+def login(login="", password=""):
+    if not (os.path.isfile("authCred.pkl")):
+        print("Enter your login Credentials:")
+        login = input("Email:    ")
+        password = input("Password: ")
+        cred = AuthCred(login, password)
+        save_obj(cred, "authCred")
+    else:
+        cred = load_obj("authCred")
 
-print("DRIVERS: " + str(len(drivers)) + "\t CONSTRUCTORS: " + str(len(constructors)))
-FormulaDatabase.insertDrivers(drivers)
-GenerateFrom(drivers, constructors)
+    return cred.login, cred.password
+
+
+# FormulaDatabase.insertDrivers(drivers)
+
+if __name__ == '__main__':
+    drivers, constructors = GetDriversAndConstructors(login()[0], login()[1], webdriver.Chrome())
+    GenerateFrom(drivers, constructors)
+    FormulaDatabase.insertDrivers(drivers)
