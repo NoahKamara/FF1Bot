@@ -1,8 +1,6 @@
 import sqlite3
-from sqlite3 import Error
-import os.path
 from datetime import date
-from Dictionaries import Driver
+
 
 def connect():
     connection = sqlite3.connect("f1sqlite.db")
@@ -10,10 +8,13 @@ def connect():
     cursor.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='drivers' ''')
 
     # if the count is 1, then table exists
-    if cursor.fetchone()[0] != 1: {
-        cursor.execute('''CREATE TABLE "drivers" ("id"	INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"name"	TEXT,"points" INTEGER, "price" REAL, "date"	DATE) ''')
-    }
+    if cursor.fetchone()[0] != 1:
+        cursor.execute(
+            '''CREATE TABLE "drivers" ("id"	INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"name"	TEXT,"points" INTEGER, 
+            "price" REAL, "date"	DATE) ''')
+
     return connection
+
 
 def insertDrivers(drivers):
     datum = date.today().strftime("%Y-%m-%d")
@@ -26,7 +27,3 @@ def insertDrivers(drivers):
 
     connection.close()
 # never forget this, if you want the changes to be saved:
-
-
-
-
