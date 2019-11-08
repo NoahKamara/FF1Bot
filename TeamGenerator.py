@@ -37,4 +37,5 @@ def makeBestTeamListUnder100M(drivers, constructors):
     bestTeam = max(fullAffordableTeams, key=lambda i: float(i.calculatePoints()))
     TeamSaver.save(bestTeam)
     Outputter.team(bestTeam)
+
     return fullAffordableTeams.sort(key=lambda x: x.calculatePoints())
