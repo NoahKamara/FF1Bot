@@ -95,5 +95,5 @@ def proposeChange(drivers, constructors):
             Outputter.memberChange(old, new)
             print("As Yoda said : There is another (Constructor) - And its better")
     if (bestTeam == constructorChangeBestTeam) and (bestTeam == driverChangeBestTeam):
-        print("There is no better Team. Joda was wrong")
+        print("There is no better Team. Yoda was wrong")
     return bestTeam
