@@ -2,10 +2,13 @@ import os.path
 import pickle
 
 from selenium import webdriver
+from DriversAndConstructors import GetDriversAndConstructors
 
 import FormulaDatabase
 from DriversAndConstructors import GetDriversAndConstructors
 from TeamGenerator import makeBestTeamListUnder100M
+
+
 
 
 class AuthCred:
