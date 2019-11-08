@@ -9,7 +9,7 @@ from Dictionaries import Team
 # never used (sören)
 
 
-def GenerateFrom(drivers, constructors):
+def makeBestTeamListUnder100M(drivers, constructors):
     # Create All Possible Driver combinations
     driverTeams = list(combinations(drivers, 5))
 

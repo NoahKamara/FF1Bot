@@ -5,7 +5,7 @@ from selenium import webdriver
 
 import FormulaDatabase
 from DriversAndConstructors import GetDriversAndConstructors
-from TeamGenerator import GenerateFrom
+from TeamGenerator import makeBestTeamListUnder100M
 
 
 class AuthCred:
@@ -41,5 +41,5 @@ def login(login="", password=""):
 
 if __name__ == '__main__':
     drivers, constructors = GetDriversAndConstructors(login()[0], login()[1], webdriver.Chrome())
-    GenerateFrom(drivers, constructors)
+    makeBestTeamListUnder100M(drivers, constructors)
     FormulaDatabase.insertDrivers(drivers)

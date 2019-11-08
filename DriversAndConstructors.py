@@ -9,7 +9,7 @@ def chooseConOrDri(driver, choose):
     dropdownOptions = driver.find_elements_by_class_name("position-tab")
     if choose == "driver":
         dropdownOptions[1].click()
-    if choose == "constructor":
+    elif choose == "constructor":
         dropdownOptions[2].click()
     else:
         print("ERROR CONSTRUCTOR OR DRIVER NOT GIVEN!")
@@ -53,7 +53,7 @@ def make_driver_list(driver, constructors):
                     exists = True
             if not (exists):
                 drivers.append(newDriver)
-        return drivers
+    return drivers
 
 
 def GetDriversAndConstructors(login, password, driver):
@@ -62,10 +62,8 @@ def GetDriversAndConstructors(login, password, driver):
     time.sleep(3)
     chooseConOrDri(driver, "constructor")
     constructorDivs = driver.find_elements_by_xpath("/html/body/div[2]/div[6]/div[1]/div[1]/div[4]/div")
-
     # Store all Constructors in List
     constructors = make_constructor_list(constructorDivs)
-
     # Change filter back to "Drivers"
     chooseConOrDri(driver, "driver")
     # Store all drivers in list
