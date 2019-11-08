@@ -14,6 +14,21 @@ def generateDummies():
         drivers.append(newDriver)
     return drivers
 
+def others(team,drivers, constructors):
+    oldDrivers = []
+    for d in team.drivers:
+        oldDrivers.append(d.name)
+    newDrivers = []
+    for driver in drivers:
+        if not (driver.name in oldDrivers):
+            newDrivers.append(driver)
+
+    newConstructors = []
+    for constructor in constructors:
+        if not (constructor.name == newConstructors):
+            newConstructors.append(constructor)
+    return newDrivers, newConstructors
+
 
 def DriverComparer(otherDrivers):
     formerTeam = TeamSaver.load()
@@ -21,8 +36,7 @@ def DriverComparer(otherDrivers):
     possibleNewTeams = [formerTeam]
     for driver in formerTeam.drivers:
         for other in otherDrivers:
-            if (other.price <= driver.price) and (
-                    other.points > driver.points):  # Other Driver is Cheaper or the same price AND has more points
+            if (other.price <= driver.price) and (other.points > driver.points):  # Other Driver is Cheaper or the same price AND has more points
                 newTeam = Team([other], formerTeam.constructor)
                 for d in formerTeam.drivers:
                     if not (d.name == driver.name):
@@ -48,8 +62,14 @@ def ConstructorCompare(otherConstructors):
 
 def proposeChange(drivers, constructors):
     formerTeam = TeamSaver.load()
-    driverChangeBestTeam = DriverComparer(drivers)
-    constructorChangeBestTeam = ConstructorCompare(constructors)
+
+    otherDrivers, otherConstructors = others(formerTeam, drivers, constructors)
+    for d in otherDrivers:
+        print(d.name)
+    for d in otherConstructors:
+        print(d.name)
+    driverChangeBestTeam = DriverComparer(otherDrivers)
+    constructorChangeBestTeam = ConstructorCompare(otherConstructors)
     bestTeam = max([driverChangeBestTeam, constructorChangeBestTeam], key=lambda i: float(i.calculatePoints()))
     Outputter.team(bestTeam)
     if (bestTeam == driverChangeBestTeam):
@@ -66,14 +86,14 @@ def proposeChange(drivers, constructors):
                 break
         if not ((old == None) or (new == None)):
             Outputter.memberChange(old, new)
-        print("As Yoda said : There is another - And its better")
-    elif (bestTeam == constructorChangeBestTeam) and not (bestTeam == formerTeam):
+            print("As Yoda said : There is another (Driver)- And its better")
+    elif (bestTeam == constructorChangeBestTeam):
         oldTeam = TeamSaver.load().constructor
         new = oldTeam.constructor
         old = bestTeam.constructor
         if not ((old == None) or (new == None)):
             Outputter.memberChange(old, new)
-        print("As Yoda said : There is another - And its better")
-    if (bestTeam == constructorChangeBestTeam) and (bestTeam == formerTeam):
+            print("As Yoda said : There is another (Constructor) - And its better")
+    if (bestTeam == constructorChangeBestTeam) and (bestTeam == driverChangeBestTeam):
         print("There is no better Team. Joda was wrong")
     return bestTeam
