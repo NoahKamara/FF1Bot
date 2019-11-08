@@ -1,35 +1,30 @@
 import time
 
-from selenium import webdriver
-
 from Dictionaries import Constructor
 from Dictionaries import Driver
 
 
-def GetDriversAndConstructors(login, password):
-    driver = webdriver.Chrome()
-
-
-
-    def site_login():
-        driver.get(
-            "https://account.formula1.com/#/en/login?redirect=https%3A%2F%2Ffantasy.formula1.com%2F&lead_source"
-            "=web_fantasy")
-        driver.find_element_by_name("Login").send_keys(login)
-        driver.find_element_by_name("Password").send_keys(password + "\n")
-
-    site_login()
-    time.sleep(3)
-    driver.get("https://fantasy.formula1.com/edit-team/slot/1")
-    time.sleep(5)
-
-    dropdown = driver.find_element_by_xpath("//*[@id='dropdownMenuFilterPositions']").click()
+def chooseConOrDri(driver, choose):
+    driver.find_element_by_xpath("//*[@id='dropdownMenuFilterPositions']").click()
     dropdownOptions = driver.find_elements_by_class_name("position-tab")
-    dropdownOptions[2].click()
+    if choose == "driver":
+        dropdownOptions[1].click()
+    elif choose == "constructor":
+        dropdownOptions[2].click()
+    else:
+        print("ERROR CONSTRUCTOR OR DRIVER NOT GIVEN!")
 
-    constructorDivs = driver.find_elements_by_xpath("/html/body/div[2]/div[6]/div[1]/div[1]/div[4]/div")
 
-    # Store all Constructors in List
+def site_login(login, password, driver):
+    driver.get(
+        "https://account.formula1.com/#/en/login?redirect=https%3A%2F%2Ffantasy.formula1.com%2F&lead_source"
+        "=web_fantasy")
+    driver.find_element_by_name("Login").send_keys(login)
+    driver.find_element_by_name("Password").send_keys(password + "\n")
+    time.sleep(3)
+
+
+def make_constructor_list(constructorDivs):
     constructors = []
     for row in constructorDivs:
         name = row.find_element_by_class_name("name").text.replace("CR ", "")
@@ -37,13 +32,11 @@ def GetDriversAndConstructors(login, password):
         price = row.find_element_by_class_name("price").text.replace("$", "").replace("m", "")
         newConstructor = Constructor(name, int(points), float(price))
         constructors.append(newConstructor)
+    return constructors
 
-    # Change filter back to "Drivers"
-    dropdown = driver.find_element_by_xpath("//*[@id='dropdownMenuFilterPositions']").click()
-    dropdownOptions = driver.find_elements_by_class_name("position-tab")
-    dropdownOptions[1].click()
 
-    # Store all drivers in list
+def make_driver_list(driver, constructors):
+    """driver= webdriver"""
     drivers = []
     for c in constructors:
         driver.find_element_by_xpath("/html/body/div[2]/div[6]/div[1]/div[1]/div[3]/div[1]/div/input").clear()
@@ -60,7 +53,23 @@ def GetDriversAndConstructors(login, password):
                     exists = True
             if not (exists):
                 drivers.append(newDriver)
+    return drivers
+
+
+def GetDriversAndConstructors(login, password, driver):
+    site_login(login, password, driver)
+    driver.get("https://fantasy.formula1.com/edit-team/slot/1")
+    time.sleep(3)
+    chooseConOrDri(driver, "constructor")
+    constructorDivs = driver.find_elements_by_xpath("/html/body/div[2]/div[6]/div[1]/div[1]/div[4]/div")
+    # Store all Constructors in List
+    constructors = make_constructor_list(constructorDivs)
+    # Change filter back to "Drivers"
+    chooseConOrDri(driver, "driver")
+    # Store all drivers in list
+    drivers = make_driver_list(driver, constructors)
     driver.close()
+    print("DRIVERS: " + str(len(drivers)) + "\t CONSTRUCTORS: " + str(len(constructors)))
     return drivers, constructors
 
 # for c in constructors:

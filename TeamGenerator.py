@@ -9,7 +9,7 @@ from Dictionaries import Team
 # never used (sören)
 
 
-def GenerateFrom(drivers, constructors):
+def makeBestTeamListUnder100M(drivers, constructors):
     # Create All Possible Driver combinations
     driverTeams = list(combinations(drivers, 5))
 
@@ -35,7 +35,7 @@ def GenerateFrom(drivers, constructors):
 
     # Calculate Team with most Points
     bestTeam = max(fullAffordableTeams, key=lambda i: float(i.calculatePoints()))
-    # fullAffordableTeams.sort(key=lambda x: x.calculatePoints())
+
     # never used aswell (sören)
     # OUTPUT
     print("BEST POSSIBLE TEAM:")
@@ -64,4 +64,4 @@ def GenerateFrom(drivers, constructors):
     print("   Price:  " + str(round(bestTeam.calculatePrice(), 2)) + " Mio USD")
     print("   Points: " + str(bestTeam.calculatePoints()))
     print("----------------------------------------------------")
-    return bestTeam
+    return fullAffordableTeams.sort(key=lambda x: x.calculatePoints())
