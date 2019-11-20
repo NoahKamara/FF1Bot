@@ -4,6 +4,9 @@ from TeamSaver import load
 import time
 from Dictionaries import Driver, Constructor, Team
 import PySimpleGUI as sg
+import os, sys, inspect     # http://stackoverflow.com/questions/279237/import-a-module-from-a-relative-path
+current_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe() ))[0]))
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 def site_login(login, password, webDriver):
@@ -18,7 +21,7 @@ def createNewTeam(team):
     window = sg.popup_yes_no("fill out team on f1")
     if window == "No":
         return
-    webDriver = webdriver.Chrome()
+    webDriver = webdriver.Chrome(ChromeDriverManager().install())
     config = loadConfig()
     auth = config.auth
     site_login(auth.login, auth.password, webDriver)
@@ -51,7 +54,7 @@ def createNewTeam(team):
 
 def changeTeamMember(old, new):
     window = sg.popup_yes_no("change Driver on F1 Website?")
-    webDriver = webdriver.Chrome()
+    webDriver = webdriver.Chrome(ChromeDriverManager().install())
     config = loadConfig()
     auth = config.auth
     site_login(auth.login, auth.password, webDriver)
