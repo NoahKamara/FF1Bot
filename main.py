@@ -12,7 +12,7 @@ from ChangeProposer import proposeChange
 import TeamSaver
 from Configuration import isFirstTimeLaunch, loadConfig, saveConfig, AuthCred, Configuration, performSetup
 from TeamManager import createNewTeam, changeTeamMember
-
+import PySimpleGUI as sg
 def save_obj(obj, name):
     with open(name + '.pkl', 'wb') as f:
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
@@ -57,3 +57,4 @@ if __name__ == '__main__':
 
         if not ((old == None) or (new == None) or (old.name == new.name)):
             changeTeamMember(old, new)
+    

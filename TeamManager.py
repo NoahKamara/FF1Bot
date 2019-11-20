@@ -3,7 +3,7 @@ from Configuration import loadConfig
 from TeamSaver import load
 import time
 from Dictionaries import Driver, Constructor, Team
-
+import PySimpleGUI as sg
 
 
 def site_login(login, password, webDriver):
@@ -15,6 +15,9 @@ def site_login(login, password, webDriver):
     time.sleep(3)
 
 def createNewTeam(team):
+    window = sg.popup_yes_no("fill out team on f1")
+    if window == "No":
+        return
     webDriver = webdriver.Chrome()
     config = loadConfig()
     auth = config.auth
@@ -47,6 +50,7 @@ def createNewTeam(team):
 
 
 def changeTeamMember(old, new):
+    window = sg.popup_yes_no("change Driver on F1 Website?")
     webDriver = webdriver.Chrome()
     config = loadConfig()
     auth = config.auth
