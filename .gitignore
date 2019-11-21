@@ -1,5 +1,5 @@
 /f1sqlite.db
 /team.pkl
 /config.pkl
-/.vscode
-/.idea
+.vscode/
+.idea/
