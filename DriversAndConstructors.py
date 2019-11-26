@@ -1,5 +1,5 @@
 import time
-
+import PySimpleGUI as sg
 from Dictionaries import Constructor
 from Dictionaries import Driver
 
@@ -38,7 +38,8 @@ def make_constructor_list(constructorDivs):
 def make_driver_list(driver, constructors):
     """driver= webdriver"""
     drivers = []
-    for c in constructors:
+    for x,c in enumerate(constructors):
+        sg.OneLineProgressMeter("scaning drivers", x, 10, "key")
         driver.find_element_by_xpath("/html/body/div[2]/div[6]/div[1]/div[1]/div[3]/div[1]/div/input").clear()
         driver.find_element_by_xpath("/html/body/div[2]/div[6]/div[1]/div[1]/div[3]/div[1]/div/input").send_keys(c.name)
         driverDivs = driver.find_elements_by_xpath("/html/body/div[2]/div[6]/div[1]/div[1]/div[4]/div")

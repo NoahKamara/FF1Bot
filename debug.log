@@ -1,0 +1,8 @@
+[1119/184711.909:ERROR:process_reader_win.cc(123)] NtOpenThread: {Zugriff verweigert} Ein Prozess hat einen Zugriff auf ein Objekt angefordert, aber ihm wurden nicht die Rechte für den Zugriff erteilt. (0xc0000022)
+[1119/184711.909:ERROR:process_reader_win.cc(123)] NtOpenThread: {Zugriff verweigert} Ein Prozess hat einen Zugriff auf ein Objekt angefordert, aber ihm wurden nicht die Rechte für den Zugriff erteilt. (0xc0000022)
+[1119/184711.911:ERROR:exception_snapshot_win.cc(98)] thread ID 16220 not found in process
+[1119/184711.911:ERROR:exception_snapshot_win.cc(98)] thread ID 1764 not found in process
+[1120/230743.076:ERROR:process_reader_win.cc(123)] NtOpenThread: {Zugriff verweigert} Ein Prozess hat einen Zugriff auf ein Objekt angefordert, aber ihm wurden nicht die Rechte für den Zugriff erteilt. (0xc0000022)
+[1120/230743.130:ERROR:exception_snapshot_win.cc(98)] thread ID 19904 not found in process
+[1120/230906.111:ERROR:process_reader_win.cc(123)] NtOpenThread: {Zugriff verweigert} Ein Prozess hat einen Zugriff auf ein Objekt angefordert, aber ihm wurden nicht die Rechte für den Zugriff erteilt. (0xc0000022)
+[1120/230906.112:ERROR:exception_snapshot_win.cc(98)] thread ID 8372 not found in process

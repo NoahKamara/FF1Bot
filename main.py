@@ -3,6 +3,7 @@ import pickle
 
 from selenium import webdriver
 from DriversAndConstructors import GetDriversAndConstructors
+from webdriver_manager.chrome import ChromeDriverManager
 
 import FormulaDatabase
 from DriversAndConstructors import GetDriversAndConstructors
@@ -12,7 +13,7 @@ from ChangeProposer import proposeChange
 import TeamSaver
 from Configuration import isFirstTimeLaunch, loadConfig, saveConfig, AuthCred, Configuration, performSetup
 from TeamManager import createNewTeam, changeTeamMember
-
+import PySimpleGUI as sg
 def save_obj(obj, name):
     with open(name + '.pkl', 'wb') as f:
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
@@ -26,11 +27,14 @@ def load_obj(name):
 # FormulaDatabase.insertDrivers(drivers)
 
 if __name__ == '__main__':
+    options = webdriver.ChromeOptions()
+    options.add_argument('--log-level=3')
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     if isFirstTimeLaunch():
         performSetup()
     config = loadConfig()
     auth = config.auth
-    drivers, constructors = GetDriversAndConstructors(auth.login, auth.password, webdriver.Chrome())
+    drivers, constructors = GetDriversAndConstructors(auth.login, auth.password, driver)
     FormulaDatabase.insertDrivers(drivers)
     if not (os.path.exists('team.pkl')):
         makeBestTeamListUnder100M(drivers, constructors)
@@ -57,3 +61,4 @@ if __name__ == '__main__':
 
         if not ((old == None) or (new == None) or (old.name == new.name)):
             changeTeamMember(old, new)
+    
